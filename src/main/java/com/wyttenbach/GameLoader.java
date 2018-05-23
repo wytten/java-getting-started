@@ -32,7 +32,7 @@ public class GameLoader {
 							System.out.println(""+desc);
 							break;
 						}
-						roomDesc += desc + System.lineSeparator();
+						roomDesc += desc + "<br/>";
 					}
 					Room room = new Room(roomNum, roomDesc);
 					game.addRoom(room);

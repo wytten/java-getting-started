@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<div class="container">
-		<p th:text="${status.description}" />
+		<p th:utext="${status.description}" />
 	</div>
 	<div th:if="${status.running}">
 		<form method="post">
