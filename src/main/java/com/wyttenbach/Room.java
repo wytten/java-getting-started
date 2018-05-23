@@ -33,7 +33,7 @@ public class Room {
 	public Action getAction(String desc) {
 		Action target = null;
 		for (Action action : actions) {
-			if (desc.equals(action.getName())) {
+			if (desc.equalsIgnoreCase(action.getName())) {
 				target = action;
 				break;
 			}
