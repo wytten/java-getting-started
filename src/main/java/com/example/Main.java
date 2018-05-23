@@ -16,73 +16,53 @@
 
 package com.example;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import java.util.Map;
+
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Map;
+import com.wyttenbach.CommandRequest;
+import com.wyttenbach.GameRunner;
+import com.wyttenbach.GameStatus;
 
 @Controller
 @SpringBootApplication
-public class Main {
+@ComponentScan("com.wyttenbach")
+public class Main implements InitializingBean {
+	
+	@Autowired
+	private GameRunner gameRunner;
 
-  @Value("${spring.datasource.url}")
-  private String dbUrl;
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(Main.class, args);
+	}
 
-  @Autowired
-  private DataSource dataSource;
+	@RequestMapping("/")
+	String indexSubmit(Map<String, Object> model, @ModelAttribute CommandRequest request) {
+		GameStatus status;
+		String command = request.getCommand();
+		System.out.println("command="+command);
+		if (command != null) {
+			status = gameRunner.apply(command);
+		} else {
+			status = gameRunner.getStatus();
+		}
+		model.put("status", status);
+		return "index";
+	}
 
-  public static void main(String[] args) throws Exception {
-    SpringApplication.run(Main.class, args);
-  }
-
-  @RequestMapping("/")
-  String index() {
-    return "index";
-  }
-
-  @RequestMapping("/db")
-  String db(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
-      }
-
-      model.put("records", output);
-      return "db";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
-  }
-
-  @Bean
-  public DataSource dataSource() throws SQLException {
-    if (dbUrl == null || dbUrl.isEmpty()) {
-      return new HikariDataSource();
-    } else {
-      HikariConfig config = new HikariConfig();
-      config.setJdbcUrl(dbUrl);
-      return new HikariDataSource(config);
-    }
-  }
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println(gameRunner);
+//		TestGameRunner runner = new TestGameRunner;(game);
+//		int status = runner.run();
+//		System.exit(status);
+	}
 
 }

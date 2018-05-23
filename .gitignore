@@ -1,4 +1,7 @@
 target
 .env
+.classpath
+.project
 .idea/
 *.iml
+history.txt
