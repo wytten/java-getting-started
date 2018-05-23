@@ -6,7 +6,13 @@
 	</div>
 	<div th:if="${status.running}">
 		<form method="post">
-			<input name="command"></input>
+			<input name="command"/>
+		</form>
+	</div>
+	<div th:unless="${status.running}">
+		<form method="post">
+			<input type="hidden" name="command" value="%new"/>
+			<button type="submit">New Game</button>
 		</form>
 	</div>
 </body>

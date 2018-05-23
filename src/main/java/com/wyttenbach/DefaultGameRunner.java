@@ -19,7 +19,11 @@ public class DefaultGameRunner implements GameRunner, InitializingBean {
 		return status;
 	}
 	
-	private GameStatus newRoom(Room room) {
+	private void newGame() {
+		newRoom(game.getRoom(0));
+	}
+	
+	private void newRoom(Room room) {
 		this.room = room;
 		boolean running = true;
 		int exitStatus = 0;
@@ -31,7 +35,6 @@ public class DefaultGameRunner implements GameRunner, InitializingBean {
 			} 
 		}
 		status = new DefaultGameStatus(room.getDescription(), running, exitStatus);
-		return status;
 	}
 
 	@Override
@@ -40,13 +43,15 @@ public class DefaultGameRunner implements GameRunner, InitializingBean {
 		if (action != null) {
 			room = game.getRoom(action.getNumber());
 			newRoom(room);
+		} else if ("%new".equals(cmd)) {
+			newGame();
 		}
 		return status;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		newRoom(game.getRoom(0));
+		newGame();
 	}
 
 }
