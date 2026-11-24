@@ -1,37 +1,33 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/build/
+!**/src/main/**/target/
+!**/src/test/**/build/
+!**/src/test/**/target/
 .apt_generated
 .classpath
+.DS_Store
+.env
 .factorypath
+.idea
 .project
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+.vscode/
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
+*.iws
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
+/dist/
+/nbbuild/
+/nbdist/
+/nbproject/private/
+### IntelliJ IDEA ###
+### NetBeans ###
+### STS ###
 ### VS Code ###
-.vscode/
-
-.DS_Store
-
-.env
+build/
 history.txt
+nohup.out
+target/
