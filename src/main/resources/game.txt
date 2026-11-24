@@ -1,0 +1,26 @@
+id=0
+You are standing on the eastern edge of a pool of water.
+A waterfall is pouring into the pool at the western end.
+EOD
+west 1
+EOR
+id=1
+You are standing on the western edge of a pool of water.
+A waterfall is pouring into the pool here.
+You can swim here, but you best not dive.
+EOD
+east 0
+swim 2
+dive 3
+EOR
+id=2
+You win!
+EOD
+%exit 0
+EOR
+id=3
+You lose!
+EOD
+%exit 1
+EOR
+EOF
